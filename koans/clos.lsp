@@ -25,8 +25,8 @@
       (setf (slot-value car-1 'speed) 220)
       (setf (slot-value car-2 'color) :blue)
       (setf (slot-value car-2 'speed) 240)
-      (assert-equal ____ (slot-value car-1 'color))
-      (assert-equal ____ (slot-value car-2 'speed))))
+      (assert-equal :red (slot-value car-1 'color))
+      (assert-equal 240 (slot-value car-2 'speed))))
 
 ;; CLOS provides functionality for creating getters / setters
 ;; for defined objects
@@ -38,9 +38,9 @@
 (define-test test-clos-getters-and-setters
     (let ((ship-1 (make-instance 'spaceship)))
       (set-color :orange ship-1)
-      (assert-equal ____ (get-color ship-1))
+      (assert-equal :orange (get-color ship-1))
       (set-speed 1000 ship-1)
-      (assert-equal ____ (get-speed ship-1))))
+      (assert-equal 1000 (get-speed ship-1))))
 
 ;; CLOS also provides functionality to create accessors
 ;; to object data.
@@ -62,16 +62,15 @@
 (define-test test-access-counter
     (let ((x (make-instance 'value-with-access-counter)))
       ; check that no one has ever looked at the x value yet.
-      (assert-equal ____ (how-many-value-queries x))
+      (assert-equal 0 (how-many-value-queries x))
       ; check that the default value is zero.
-      (assert-equal ___ (get-value x))
+      (assert-equal 0 (get-value x))
       ; now that we've looked at it, there is a single access.
-      (assert-equal ___ (how-many-value-queries x))
-      ; check that we can set and read the value
+      (assert-equal 1 (how-many-value-queries x))
+      ;; ; check that we can set and read the value
       (set-value 33 x)
       (assert-equal 33 (get-value x))
-      (assert-equal ___ (how-many-value-queries x))))
-
+      (assert-equal 3 (how-many-value-queries x))))
 
 ; countdowner has a value which goes down every time you look at it
 ; and returns "bang" when it hits zero.
