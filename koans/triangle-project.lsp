@@ -17,8 +17,21 @@
 
 (define-condition triangle-error  (error) ())
 
+;; Any side of a triangle is less than half its perimeter, so a < p/2 or 2a < p
+(defun triangle-validp (a b c)
+  (let ((perimeter (+ a b c)))
+    (if (>= (max (* a 2) (* b 2) (* c 2)) perimeter)
+        nil
+        t)))
+
 (defun triangle (a b c)
-  :write-me)
+  (if (not (triangle-validp a b c))
+      (error 'triangle-error))
+  (if (= a b c)
+      :equilateral
+      (if (or (= a b) (= a c) (= b c))
+          :isosceles
+          :scalene)))
 
 
 (define-test test-equilateral-triangles-have-equal-sides
