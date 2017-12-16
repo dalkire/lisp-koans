@@ -79,10 +79,13 @@
 
 ;; Write the get-value for the countdowner
 ;; to satisfy the test-countdowner tests.
-;; you may be interested in the 'decf function.
+;; you may be interested in the 'decf function.(
 (defmethod get-value ((object countdowner))
-  :WRITE-ME)
-
+  (if (typep (slot-value object 'value) 'integer)
+      (if (> (slot-value object 'value) 1)
+          (decf (slot-value object 'value))
+          "bang")
+      "bang"))
 
 (define-test test-countdowner
     (let ((c (make-instance 'countdowner)))
@@ -105,15 +108,15 @@
 (define-test test-inheritance
     (let ((circle-1 (make-instance 'circle))
           (shape-1 (make-instance 'shape)))
-      (assert-equal ____ (type-of shape-1))
-      (assert-equal ____ (type-of circle-1))
-      (true-or-false? ____ (typep circle-1 'circle))
-      (true-or-false? ____ (typep circle-1 'shape))
+      (assert-equal 'shape (type-of shape-1))
+      (assert-equal 'circle (type-of circle-1))
+      (true-or-false? t (typep circle-1 'circle))
+      (true-or-false? t (typep circle-1 'shape))
       (set-kind :circle circle-1)
       (set-pos '(3 4) circle-1)
       (set-radius 5 circle-1)
-      (assert-equal ____ (get-pos circle-1))
-      (assert-equal ____ (get-radius circle-1))))
+      (assert-equal '(3 4) (get-pos circle-1))
+      (assert-equal 5 (get-radius circle-1))))
 
 ;; Classes may also inherit from more than one base class.
 ;; This is known as multiple inheritance.
@@ -138,8 +141,8 @@
 (define-test test-multiple-inheritance
     (let ((my-colored-circle (make-instance 'colored-circle))
           (my-circled-color (make-instance 'circled-color)))
-      (assert-equal ____ (get-kind my-colored-circle))
-      (assert-equal ____ (get-kind my-circled-color))))
+      (assert-equal :default-color-kind (get-kind my-colored-circle))
+      (assert-equal :default-shape-kind (get-kind my-circled-color))))
 
 
 (defvar *last-kind-accessor* nil)
@@ -165,15 +168,15 @@
           (my-circle (make-instance 'circle))
           (my-color (make-instance 'color)))
       (get-kind my-shape)
-      (assert-equal ____ *last-kind-accessor*)
+      (assert-equal :shape *last-kind-accessor*)
       (get-kind my-circle)
-      (assert-equal ____ *last-kind-accessor*)
+      (assert-equal :circle *last-kind-accessor*)
       (get-kind my-color)
-      (assert-equal ____ *last-kind-accessor*)
+      (assert-equal :color *last-kind-accessor*)
       (get-kind my-colored-circle)
-      (assert-equal ____ *last-kind-accessor*)
+      (assert-equal :color *last-kind-accessor*)
       (get-kind my-circled-color)
-      (assert-equal ____ *last-kind-accessor*)))
+      (assert-equal :circle *last-kind-accessor*)))
 
 
 ;; Todo: consider adding :before and :after method control instructions.
