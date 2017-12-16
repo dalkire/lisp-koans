@@ -30,7 +30,7 @@
    (repeat-2 (do-something arg1 arg2)))
 
   (assert-expands
-   ____
+   '(progn (setf x (+ 1 x)) (setf x (+ 1 x)))
    (repeat-2 (setf x (+ 1 x)))))
 
 
