@@ -49,9 +49,29 @@
 ;
 ; Your goal is to write the score method.
 
+(defun count-occurrences (n lst)
+  (loop for i in lst
+     when (= i n)
+     count i))
+
+(defun get-counts (dice)
+  (let ((dice-count (make-list 6 :initial-element 0)))
+    (loop for i in dice
+       do (setf
+           (nth (- i 1) dice-count)
+           (count-occurrences i dice)))
+    dice-count))
+
+(defun score-quadruples (dice-count)
+  (let ((quad (position 4 dice-count)))
+    (if (eq quad nil)
+        0
+        (if ))))
+
 (defun score (dice)
-0  ; You need to write this method
-)
+    (let ((pos
+           (position (3))))
+      ))
 
 (define-test test-score-of-an-empty-list-is-zero
     (assert-equal 0 (score nil)))
