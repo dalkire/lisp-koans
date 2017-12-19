@@ -35,47 +35,46 @@
 
 
 (define-test test-create-dice-set
-    (assert-true t))
 ;; tests making an instance of the dice-set
-;;     (let ((dice (make-instance 'dice-set)))
-;;       (assert-true dice)))
+    (let ((dice (make-instance 'dice-set)))
+      (assert-true dice)))
 
 
-;; (define-test test-rolling-the-dice-returns-a-set-of-integers-between-1-and-6
-;; ;; tests rolling the dice
-;;     (let ((dice (make-instance 'dice-set)))
-;;       (roll 5 dice)
-;;       (assert-true (typep (get-values dice) 'list))
-;;       (assert-equal 5 (length (get-values dice)))
-;;       (dolist (x (get-values dice))
-;;         (assert-true (and (>= x 1)
-;;                           (<= x 6)
-;;                           (typep x 'integer))))))
+(define-test test-rolling-the-dice-returns-a-set-of-integers-between-1-and-6
+;; tests rolling the dice
+    (let ((dice (make-instance 'dice-set)))
+      (roll 5 dice)
+      (assert-true (typep (get-values dice) 'list))
+      (assert-equal 5 (length (get-values dice)))
+      (dolist (x (get-values dice))
+        (assert-true (and (>= x 1)
+                          (<= x 6)
+                          (typep x 'integer))))))
 
 
-;; (define-test test-dice-values-do-not-change-unless-explicitly-rolled
-;; ;; tests that dice don't change just by looking at them
-;;     (let ((dice (make-instance 'dice-set)))
-;;       (roll 100 dice)
-;;       (let ((first-time (get-values dice))
-;;             (second-time (get-values dice)))
-;;         (assert-equal first-time second-time))))
+(define-test test-dice-values-do-not-change-unless-explicitly-rolled
+;; tests that dice don't change just by looking at them
+    (let ((dice (make-instance 'dice-set)))
+      (roll 100 dice)
+      (let ((first-time (get-values dice))
+            (second-time (get-values dice)))
+        (assert-equal first-time second-time))))
 
 
-;; (define-test test-dice-values-should-change-between-rolls
-;; ;; tests that rolling the dice DOES change the values.
-;;     (let ((dice (make-instance 'dice-set))
-;;           (first-time nil)
-;;           (second-time nil))
-;;       (roll 100 dice)
-;;       (setf first-time (get-values dice))
-;;       (roll 100 dice)
-;;       (setf second-time (get-values dice))
-;;       (assert-false (equal first-time second-time))))
+(define-test test-dice-values-should-change-between-rolls
+;; tests that rolling the dice DOES change the values.
+    (let ((dice (make-instance 'dice-set))
+          (first-time nil)
+          (second-time nil))
+      (roll 100 dice)
+      (setf first-time (get-values dice))
+      (roll 100 dice)
+      (setf second-time (get-values dice))
+      (assert-false (equal first-time second-time))))
 
-;; (define-test test-you-can-roll-different-numbers-of-dice
-;; ;; tests count parameter of how many dice to roll
-;;     (let ((dice (make-instance 'dice-set)))
-;;       (assert-equal 5 (length (roll 5 dice)))
-;;       (assert-equal 100 (length (roll 100 dice)))
-;;       (assert-equal 1 (length (roll 1 dice)))))
+(define-test test-you-can-roll-different-numbers-of-dice
+;; tests count parameter of how many dice to roll
+    (let ((dice (make-instance 'dice-set)))
+      (assert-equal 5 (length (roll 5 dice)))
+      (assert-equal 100 (length (roll 100 dice)))
+      (assert-equal 1 (length (roll 1 dice)))))
