@@ -50,28 +50,41 @@
 ; Your goal is to write the score method.
 
 (defun count-occurrences (n lst)
+  "Count the occurences of a number in a list."
   (loop for i in lst
      when (= i n)
      count i))
 
-(defun get-counts (dice)
-  (let ((dice-count (make-list 6 :initial-element 0)))
-    (loop for i in dice
-       do (setf
-           (nth (- i 1) dice-count)
-           (count-occurrences i dice)))
-    dice-count))
+(defun get-value-counts (dice)
+  "Collect value-count pairs for the dice roll, e.g. (1 3) means three ones
+were rolled and (4 1) means one four was rolled."
+  (let ((dice-count '(1 2 3 4 5 6)))
+    (loop for i in dice-count
+       collect (list
+                (nth (- i 1) dice-count)
+                (count-occurrences i dice)))))
 
-(defun score-quadruples (dice-count)
-  (let ((quad (position 4 dice-count)))
-    (if (eq quad nil)
-        0
-        (if ))))
+(defun score-value (value-count)
+  "Score the value-count pairs according to the rules of the game."
+  (let ((value (car value-count))
+        (count (cadr value-count)))
+    (case value
+      (1 (case count
+           (4 1100)
+           (3 1000)
+           (t (* count 100))))
+      (5 (case count
+           (4 550)
+           (3 500)
+           (t (* count 50))))
+      (t (case count
+           (4 (* value 100))
+           (3 (* value 100))
+           (t 0))))))
 
 (defun score (dice)
-    (let ((pos
-           (position (3))))
-      ))
+  "Score the dice roll."
+  (reduce #'+ (mapcar 'score-value (get-value-counts dice))))
 
 (define-test test-score-of-an-empty-list-is-zero
     (assert-equal 0 (score nil)))
