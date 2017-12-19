@@ -56,18 +56,18 @@
      count i))
 
 (defun get-value-counts (dice)
-  "Collect value-count pairs for the dice roll, e.g. (1 3) means three ones
-were rolled and (4 1) means one four was rolled."
+  "Collect value-count pairs for the dice roll, e.g. (1 . 3) means three ones
+were rolled and (4 . 1) means one four was rolled."
   (let ((dice-count '(1 2 3 4 5 6)))
     (loop for i in dice-count
-       collect (list
+       collect (cons
                 (nth (- i 1) dice-count)
                 (count-occurrences i dice)))))
 
 (defun score-value (value-count)
   "Score the value-count pairs according to the rules of the game."
   (let ((value (car value-count))
-        (count (cadr value-count)))
+        (count (cdr value-count)))
     (case value
       (1 (case count
            (4 1100)
